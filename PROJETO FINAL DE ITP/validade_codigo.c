@@ -1,5 +1,6 @@
 #include <string.h>
 #include <locale.h>
+#include <stdio.h>
 #include "validade_codigo.h"
 
 int quant_tipo_elementos(char codigoStr[]){
@@ -8,9 +9,9 @@ int quant_tipo_elementos(char codigoStr[]){
     int validacao;
     char verificacao[] = "0123456789";
 
-    //verifica a validade do código informado pelo o usuário
+    //verifica a validade do cï¿½digo informado pelo o usuï¿½rio
     if(!(strlen(codigoStr) == 8)){
-        printf("Identificador não possui 8 dígitos!\n");
+        printf("Identificador nï¿½o possui 8 dï¿½gitos!\n");
         return 0;
 
     }else{
@@ -26,7 +27,7 @@ int quant_tipo_elementos(char codigoStr[]){
             }
             if(testeElemento == 0){
                 validacao = 0;
-                printf("Identificador contém valores não numéricos!\n");
+                printf("Identificador contï¿½m valores nï¿½o numï¿½ricos!\n");
                 break;
 
             }else{
@@ -38,7 +39,7 @@ int quant_tipo_elementos(char codigoStr[]){
 
 }
 
-//converte o código tipo string para tipo inteiro
+//converte o cï¿½digo tipo string para tipo inteiro
 int convertInter(char x){
     char verificador[] = "0123456789";
 
@@ -50,7 +51,7 @@ int convertInter(char x){
     }
 }
 
-//varifica a validade do dígito verificador
+//varifica a validade do dï¿½gito verificador
 int validacao_identificador(int vetor[]){
 
     setlocale(LC_ALL,"");
@@ -82,7 +83,10 @@ int validacao_identificador(int vetor[]){
         return 1;
 
     }else{
-        printf("O dígito verificador do identificador é inválido (não corresponde aos valores anteriores)!\n");
+        printf("O dï¿½gito verificador do identificador ï¿½ invï¿½lido (nï¿½o corresponde aos valores anteriores)!\n");
         return 0;
     }
 }
+
+//funï¿½ï¿½o para checar a validade do arquivo pbm:
+

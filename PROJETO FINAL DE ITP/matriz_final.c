@@ -86,3 +86,7 @@ void print(int** matriz, int linhas, int colunas, char nome_imagem[]){
     }
 
 }
+
+
+
+

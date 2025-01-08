@@ -53,12 +53,14 @@
 
 1736295499 c:\users\andre\documents\projeto-final-de-itp\projeto final de itp\validade_codigo.h
 
-1736295499 source:c:\users\andre\documents\projeto-final-de-itp\projeto final de itp\matriz_final.c
+1736299127 source:c:\users\andre\documents\projeto-final-de-itp\projeto final de itp\matriz_final.c
 	<stdio.h>
 	<stdlib.h>
+	<locale.h>
 	"matriz_final.h"
 
-1736295499 source:c:\users\andre\documents\projeto-final-de-itp\projeto final de itp\validade_codigo.c
+1736299210 source:c:\users\andre\documents\projeto-final-de-itp\projeto final de itp\validade_codigo.c
 	<string.h>
+	<locale.h>
 	"validade_codigo.h"
 

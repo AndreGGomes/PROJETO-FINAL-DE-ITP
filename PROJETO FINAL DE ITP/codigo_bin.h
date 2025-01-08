@@ -3,8 +3,8 @@
 #define INICIO_L 3
 #define INICIO_R 36
 
-int cont_L;
-int cont_R;
+extern int cont_L;
+extern int cont_R;
 
 void bits_padrao(int* vetor);
 
