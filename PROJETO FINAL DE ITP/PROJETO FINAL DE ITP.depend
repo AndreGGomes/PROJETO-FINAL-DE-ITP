@@ -34,3 +34,31 @@
 	<string.h>
 	"entradas.h"
 
+1736295499 source:c:\users\andre\documents\projeto-final-de-itp\projeto final de itp\codigo_bin.c
+	<stdlib.h>
+	<stdio.h>
+	"codigo_bin.h"
+
+1736295499 c:\users\andre\documents\projeto-final-de-itp\projeto final de itp\codigo_bin.h
+
+1736295499 source:c:\users\andre\documents\projeto-final-de-itp\projeto final de itp\createcb.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"matriz_final.h"
+	"validade_codigo.h"
+	"codigo_bin.h"
+
+1736295499 c:\users\andre\documents\projeto-final-de-itp\projeto final de itp\matriz_final.h
+
+1736295499 c:\users\andre\documents\projeto-final-de-itp\projeto final de itp\validade_codigo.h
+
+1736295499 source:c:\users\andre\documents\projeto-final-de-itp\projeto final de itp\matriz_final.c
+	<stdio.h>
+	<stdlib.h>
+	"matriz_final.h"
+
+1736295499 source:c:\users\andre\documents\projeto-final-de-itp\projeto final de itp\validade_codigo.c
+	<string.h>
+	"validade_codigo.h"
+

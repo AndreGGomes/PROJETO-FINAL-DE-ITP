@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <locale.h>
 #include "matriz_final.h"
 
 int** dimensionar(int linhas, int colunas){
@@ -41,6 +42,7 @@ void montarMatriz(int** matriz, int* vetor, int borda, int largura_area, int lin
 //função que printa a matriz final no arquivo pbm
 void print(int** matriz, int linhas, int colunas, char nome_imagem[]){
 
+    setlocale(LC_ALL,"");
     char confirmacao;
     FILE * fp;
     fp = fopen(nome_imagem, "r");

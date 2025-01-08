@@ -1,8 +1,10 @@
 #include <string.h>
+#include <locale.h>
 #include "validade_codigo.h"
 
 int quant_tipo_elementos(char codigoStr[]){
 
+    setlocale(LC_ALL,"");
     int validacao;
     char verificacao[] = "0123456789";
 
@@ -51,6 +53,7 @@ int convertInter(char x){
 //varifica a validade do dígito verificador
 int validacao_identificador(int vetor[]){
 
+    setlocale(LC_ALL,"");
     int soma_ponderada = 0;
 
     for(int i = 0; i < 7; ++i){
