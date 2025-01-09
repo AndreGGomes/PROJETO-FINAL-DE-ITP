@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include "codigo_bin.h"
 
-cont_L = INICIO_L;
-cont_R = INICIO_R;
+int cont_L = INICIO_L;
+int cont_R = INICIO_R;
 
 void bits_padrao(int* vetor){
 

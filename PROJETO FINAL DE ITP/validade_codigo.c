@@ -1,7 +1,11 @@
 #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <locale.h>
 #include <stdio.h>
 #include "validade_codigo.h"
+
+int largura, altura;
 
 int quant_tipo_elementos(char codigoStr[]){
 
@@ -88,5 +92,106 @@ int validacao_identificador(int vetor[]){
     }
 }
 
-//fun��o para checar a validade do arquivo pbm:
+//funções para checar a validade do arquivo pbm:
 
+// Função para verificar a primeira linha (cabeçalho "P1")
+int verificar_primeira_linha(FILE *arquivo) { //DEU CERTO
+    char linha[100];  // Tamanho da linha a ser lida
+
+    if (fgets(linha, sizeof(linha), arquivo) != NULL) {
+        // Remove qualquer caractere de nova linha ao final
+        linha[strcspn(linha, "\n")] = '\0';
+
+        // Verifica se a linha contém exatamente "P1"
+        if (strcmp(linha, "P1") == 0) {
+            return 1;  // Retorna 1 se a primeira linha for "P1"
+        } else {return 0;}
+    }
+}
+
+
+//verificando segunda linha em busca da altura e largura do codigo de barras
+int verificar_segunda_linha(FILE *arquivo) { ///DEU CERTO
+    char linha[100];
+
+     // Lê a segunda linha do arquivo
+    if (fgets(linha, sizeof(linha), arquivo) != NULL) {
+        // Remove qualquer caractere de nova linha ao final
+        linha[strcspn(linha, "\n")] = '\0';
+
+        // Usa sscanf para tentar ler dois inteiros da linha
+        if (sscanf(linha, "%d %d", &largura, &altura) == 2) {
+            return 1;  // Retorna 1 se a linha contiver exatamente dois inteiros
+        }
+    }
+    return 0;  // Retorna 0 caso contrário
+}
+
+
+
+// Função única para verificar o espaçamento superior
+//essa função checa se a primeira e ultima linha da matriz são formadas apenas por 0s
+//caso ambas sejam formadas apenas por 0s e respeitarem a largura definida, é adicionado +1 ao contador de espaçamento
+
+int checar_espacamento_superior(FILE *arquivo, int largura, int num_linhas) {
+    char linha[largura + 1];  // +1 para incluir o terminador nulo '\0'
+    int espacamento_superior = 0;
+    char **linhas = malloc(num_linhas * sizeof(char *));
+    int total_linhas = 0;
+
+    // Pular as duas primeiras linhas do arquivo (cabeçalho)
+    fgets(linha, sizeof(linha), arquivo);  // Cabeçalho "P1"
+    fgets(linha, sizeof(linha), arquivo);  // Largura e altura
+
+    // Ler as linhas do arquivo até o número total de linhas
+    while (fgets(linha, sizeof(linha), arquivo) != NULL && total_linhas < num_linhas) {
+        linha[strcspn(linha, "\n")] = '\0';  // Remove o caractere de nova linha
+        linhas[total_linhas++] = strdup(linha);
+    }
+
+    // Verificar a primeira e a última linha
+    if (strlen(linhas[0]) == largura && strlen(linhas[total_linhas - 1]) == largura) {
+        int valida = 1;
+        for (int i = 0; i < largura; i++) {
+            if (linhas[0][i] != '0' || linhas[total_linhas - 1][i] != '0') {
+                valida = 0;  // Se encontrar qualquer coisa que não seja '0', marca como inválido
+                break;
+            }
+        }
+        if (valida) {
+            espacamento_superior++;  // Se ambas as linhas forem válidas, conta
+        }
+    }
+
+    // Verificar as linhas intermediárias (de cima para baixo e de baixo para cima)
+    for (int i = 1, j = total_linhas - 2; i < j; i++, j--) {
+        if (strlen(linhas[i]) == largura && strlen(linhas[j]) == largura) {
+            int valida_superior = 1, valida_inferior = 1;
+
+            // Verifica se ambas as linhas são formadas apenas por '0's
+            for (int k = 0; k < largura; k++) {
+                if (linhas[i][k] != '0') {
+                    valida_superior = 0;
+                    break;
+                }
+                if (linhas[j][k] != '0') {
+                    valida_inferior = 0;
+                    break;
+                }
+            }
+
+            // Se ambas as linhas forem formadas apenas por '0's, conta
+            if (valida_superior && valida_inferior) {
+                espacamento_superior++;
+            }
+        }
+    }
+
+    // Libera a memória alocada
+    for (int i = 0; i < total_linhas; i++) {
+        free(linhas[i]);
+    }
+    free(linhas);
+
+    return espacamento_superior;  // Retorna o número de linhas válidas encontradas
+}

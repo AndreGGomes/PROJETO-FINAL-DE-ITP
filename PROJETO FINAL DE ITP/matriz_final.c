@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <locale.h>
 #include "matriz_final.h"
+#include "validade_codigo.h"
 
 int** dimensionar(int linhas, int colunas){
     int**m;
@@ -14,7 +15,7 @@ int** dimensionar(int linhas, int colunas){
     return m;
 }
 
-//função para montar a matriz ajustada de acordo com a largura de cada área e baseada no vetor_ean
+//funï¿½ï¿½o para montar a matriz ajustada de acordo com a largura de cada ï¿½rea e baseada no vetor_ean
 void montarMatriz(int** matriz, int* vetor, int borda, int largura_area, int linhas, int colunas){
 
     int i = borda;
@@ -39,7 +40,7 @@ void montarMatriz(int** matriz, int* vetor, int borda, int largura_area, int lin
     free(vetor);
 }
 
-//função que printa a matriz final no arquivo pbm
+//funï¿½ï¿½o que printa a matriz final no arquivo pbm
 void print(int** matriz, int linhas, int colunas, char nome_imagem[]){
 
     setlocale(LC_ALL,"");
@@ -63,7 +64,7 @@ void print(int** matriz, int linhas, int colunas, char nome_imagem[]){
         free(matriz);
 
     }else{
-        printf("O arquivo a ser criado já existe. Deseja sobrescrevê-lo (s/n)?\n");
+        printf("O arquivo a ser criado jï¿½ existe. Deseja sobrescrevï¿½-lo (s/n)?\n");
         scanf(" %c", &confirmacao);
     }
     if(confirmacao == 's'){
@@ -82,10 +83,12 @@ void print(int** matriz, int linhas, int colunas, char nome_imagem[]){
         free(matriz);
 
     }else if(confirmacao == 'n'){
-        printf("arquivo resultante já existe!\n");
+        printf("arquivo resultante jï¿½ existe!\n");
     }
 
 }
+
+//transformar codigo de barras em matriz
 
 
 
