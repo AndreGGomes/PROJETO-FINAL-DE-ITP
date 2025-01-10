@@ -129,10 +129,38 @@ int verificar_segunda_linha(FILE *arquivo) { ///DEU CERTO
 
 
 
+int checar_espacamento(FILE *arquivo, int largura, int altura) {
+    // Calculando a linha no meio do arquivo
+    int linha_meio = altura / 2;
+    
+    // Posiciona o ponteiro de leitura no início da linha desejada
+    fseek(arquivo, linha_meio * largura * sizeof(char), SEEK_SET);
+    
+    // Variáveis para contar os zeros consecutivos
+    int espacamento = 0;
+    char c;
+    
+    for (int i = 0; i < largura; i++) {
+        c = fgetc(arquivo);
+        
+        if (c == '0') {
+            espacamento++;
+        }
+        // Se encontrar um '1', interrompe a contagem
+        else if (c == '1') {
+            break;
+        }
+    }
+    
+    // Retorna a quantidade de zeros consecutivos
+    return espacamento;
+}
+
+
 // Função única para verificar o espaçamento superior
 //essa função checa se a primeira e ultima linha da matriz são formadas apenas por 0s
 //caso ambas sejam formadas apenas por 0s e respeitarem a largura definida, é adicionado +1 ao contador de espaçamento
-
+/*
 int checar_espacamento_superior(FILE *arquivo, int largura, int num_linhas) {
     char linha[largura + 1];  // +1 para incluir o terminador nulo '\0'
     int espacamento_superior = 0;
@@ -195,3 +223,4 @@ int checar_espacamento_superior(FILE *arquivo, int largura, int num_linhas) {
 
     return espacamento_superior;  // Retorna o número de linhas válidas encontradas
 }
+*/

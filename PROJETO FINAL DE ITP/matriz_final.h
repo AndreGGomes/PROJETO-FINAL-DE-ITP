@@ -7,4 +7,6 @@ void montarMatriz(int** matriz, int* vetor, int borda, int largura_area, int lin
 
 void print(int** matriz, int linhas, int colunas, char nome_imagem[]);
 
+int calcular_area(int largura, int espacamento, FILE *arquivo);
+
 #endif // MATRIZ_FINAL_H_INCLUDED

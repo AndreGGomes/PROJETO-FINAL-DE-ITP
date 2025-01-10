@@ -90,6 +90,38 @@ void print(int** matriz, int linhas, int colunas, char nome_imagem[]){
 
 //transformar codigo de barras em matriz
 
+//TODO: criar um vetor com a linha espacamento_superior+1, a partir da coluna espacamento_superior+1 até a coluna espacamento_superior-1
+//a partir da coluna espacamento_superior+1 checar quantos 1 seguidos, para saber a area.
 
+int calcular_area(int largura, int espacamento, FILE *arquivo){
 
+    int area = 0;
+    char linha[largura+1];  
+    int linha_meio = (altura / 2)+2;
+
+    fseek(arquivo, linha_meio * largura * sizeof(char), SEEK_SET);
+
+    //pulando para a linha após o espacamento
+    for(int i = 0; i<espacamento+1;i++){ 
+        fgets(linha, sizeof(linha), arquivo);
+    }
+
+    fgets(linha, sizeof(linha), arquivo); //lê uma linha do código de 
+
+    for (int i = 0; i < largura; i++) { //testando para ver se a linha sendo observada é a certa
+        printf("%c", linha[i]);
+    }
+    printf("\n");  // Nova linha após a impressão de todos os elementos
+
+    
+    for (int i = espacamento; i < largura; i++) { //conta quantos 1s seguidos tem, para descobrir a area
+            if (linha[i] == '1') {
+                area++;  
+            } else if (linha[i] == '0'){
+                break;
+            }
+    }
+    
+    return area;
+}
 

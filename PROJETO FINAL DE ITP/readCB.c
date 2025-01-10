@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <locale.h>
 #include "matriz_final.h"
 #include "validade_codigo.h"
 #include "codigo_bin.h"
@@ -10,6 +11,7 @@
 #define NOME_IMAGEM_PADRAO "codigo_de_barras_ean8.pbm"
 
 int main(int argc, char *argv[]) {
+    setlocale(LC_ALL,"");
     if (argc != 2) {
         printf("\nNenhum arquivo foi escolhido!");
         return 1;
@@ -24,14 +26,14 @@ int main(int argc, char *argv[]) {
 
     // Verificar a primeira linha do arquivo
     if (!verificar_primeira_linha(arquivo)) {
-        printf("Arquivo inválido um.\n");
+        printf("Arquivo inválido.\n");
         fclose(arquivo);
         return 1;
     }
 
     // Verificar a segunda linha (dimensões)
     if (!verificar_segunda_linha(arquivo)) {
-        printf("Arquivo inválido dois.\n");
+        printf("Arquivo inválido.\n");
         fclose(arquivo);
         return 1;
     }
@@ -40,9 +42,13 @@ int main(int argc, char *argv[]) {
     fseek(arquivo, 0, SEEK_SET);  // Voltar para o início do arquivo
 
     // Passando as variáveis globais 'largura' e 'altura' para a função checar_espacamento_superior
-    int espacamento_superior = checar_espacamento_superior(arquivo, largura, altura);
+    int espacamento = checar_espacamento(arquivo, largura, altura);
 
-    printf("Espaçamento superior: %d\n", espacamento_superior);
+    printf("Espaçamento: %d\n", espacamento); //usar para testar se tudo certo!
+
+    int area = calcular_area(largura, espacamento, arquivo);
+
+    printf("a area do codigo de barras é: %d", area);
 
     fclose(arquivo);
 
