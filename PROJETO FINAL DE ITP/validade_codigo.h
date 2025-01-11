@@ -14,6 +14,6 @@ int verificar_primeira_linha(FILE *arquivo);
 
 int verificar_segunda_linha(FILE *arquivo);
 
-int checar_espacamento(FILE *arquivo, int largura, int altura);
+int checar_espacamento(FILE *arquivo, int largura);
 
 #endif // VALIDADE_CODIGO_H_INCLUDED

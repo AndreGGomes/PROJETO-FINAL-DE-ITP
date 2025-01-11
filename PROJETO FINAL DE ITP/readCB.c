@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
     fseek(arquivo, 0, SEEK_SET);  // Voltar para o início do arquivo
 
     // Passando as variáveis globais 'largura' e 'altura' para a função checar_espacamento_superior
-    int espacamento = checar_espacamento(arquivo, largura, altura);
+    int espacamento = checar_espacamento(arquivo, largura);
 
     printf("Espaçamento: %d\n", espacamento); //usar para testar se tudo certo!
 
