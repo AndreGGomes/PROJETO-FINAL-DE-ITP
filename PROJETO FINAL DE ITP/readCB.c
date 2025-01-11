@@ -46,9 +46,16 @@ int main(int argc, char *argv[]) {
 
     printf("Espaçamento: %d\n", espacamento); //usar para testar se tudo certo!
 
+    // Reabrir o arquivo para checar o espaçamento superior
+    fseek(arquivo, 0, SEEK_SET);  // Voltar para o início do arquivo
+
     int area = calcular_area(largura, espacamento, arquivo);
 
-    printf("a area do codigo de barras é: %d", area);
+    printf("a area do codigo de barras é: %d\n", area);
+
+    fseek(arquivo, 0, SEEK_SET);  // Voltar para o início do arquivo
+
+    criar_vetores(largura, area, espacamento, arquivo);
 
     fclose(arquivo);
 

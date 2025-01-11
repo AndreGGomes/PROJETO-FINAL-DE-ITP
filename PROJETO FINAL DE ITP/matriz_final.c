@@ -96,21 +96,24 @@ void print(int** matriz, int linhas, int colunas, char nome_imagem[]){
 int calcular_area(int largura, int espacamento, FILE *arquivo){
 
     int area = 0;
-    char linha[largura+1];  
+    char linha[largura*2];  
+
+    fgets(linha, sizeof(linha), arquivo); //P1
+    printf("%s", linha);
+
+    fgets(linha, sizeof(linha), arquivo); //largura e altura
+    printf("%s", linha);
 
     //pulando para a linha após o espacamento
-    for(int i = -2; i<espacamento+1;i++){ //i=-2 para pular as duas primeiras linhas de cabeçalho
+    for(int i=0;i<espacamento;i++){
         fgets(linha, sizeof(linha), arquivo);
+        printf("%s", linha);
     }
+
 
     fgets(linha, sizeof(linha), arquivo); //lê uma linha do código de 
+    printf("%s", linha);
 
-    for (int i = 0; i < largura; i++) { //testando para ver se a linha sendo observada é a certa
-        printf("%c", linha[i]);
-    }
-    printf("\n");  // Nova linha após a impressão de todos os elementos
-
-    
     for (int i = espacamento; i < largura; i++) { //conta quantos 1s seguidos tem, para descobrir a area
             if (linha[i] == '1') {
                 area++;  
@@ -120,5 +123,49 @@ int calcular_area(int largura, int espacamento, FILE *arquivo){
     }
     
     return area;
+}
+
+void criar_vetores(int largura, int area, int espacamento, FILE *arquivo){
+
+    char linha[largura*2];
+    char vetores[8][7]; //matriz de strings, 8 linhas de 7 caracteres
+
+    //pulando para a linha após o espacamento
+    for(int i = -2; i<espacamento+1;i++){ //i=-2 para pular as duas primeiras linhas de cabeçalho
+        fgets(linha, sizeof(linha), arquivo);
+    }
+    char c;
+    int contador = 0;
+    int comecoL = espacamento+(area*3);
+    int comecoR = espacamento+(area*3)+(area*4*7)+(area*5);
+    int fimR = espacamento+(area*3)+(area*4*7)+(area*5)+(area*4*8);
+    int fimL = espacamento+(area*8*4); 
+
+    for(int i = 0;i<4;i++){ //parteL do codigo
+        int j=0;
+        for(contador; contador<fimL && j<7;contador++){
+            c = fgetc(arquivo);
+            if(contador>comecoL && (contador-comecoL-1)%area == 0){
+            vetores[i][j] = c;
+            printf("%c ",vetores[i][j]);
+            j++;
+            }
+        }
+        printf("\n");
+    }
+
+    for(int i = 4;i<8;i++){ //parteR do codigo
+        int j=0;
+        for(contador; contador<fimR && j<7;contador++){
+            c = fgetc(arquivo);
+            if(contador>comecoR && (contador-comecoR-1)%area == 0){
+            vetores[i][j] = c;
+            printf("%c ",vetores[i][j]);
+            j++;
+            }
+        }
+        printf("\n");
+    }
+
 }
 
