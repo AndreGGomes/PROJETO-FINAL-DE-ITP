@@ -97,12 +97,9 @@ int calcular_area(int largura, int espacamento, FILE *arquivo){
 
     int area = 0;
     char linha[largura+1];  
-    int linha_meio = (altura / 2)+2;
-
-    fseek(arquivo, linha_meio * largura * sizeof(char), SEEK_SET);
 
     //pulando para a linha após o espacamento
-    for(int i = 0; i<espacamento+1;i++){ 
+    for(int i = -2; i<espacamento+1;i++){ //i=-2 para pular as duas primeiras linhas de cabeçalho
         fgets(linha, sizeof(linha), arquivo);
     }
 
