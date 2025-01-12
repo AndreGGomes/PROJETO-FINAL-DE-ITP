@@ -9,6 +9,8 @@ void print(int** matriz, int linhas, int colunas, char nome_imagem[]);
 
 int calcular_area(int largura, int espacamento, FILE *arquivo);
 
-void criar_vetores(int largura, int area, int espacamento, FILE *arquivo);
+char** criar_vetores(int largura, int area, int espacamento, FILE *arquivo);
+
+extern char **vetores;
 
 #endif // MATRIZ_FINAL_H_INCLUDED

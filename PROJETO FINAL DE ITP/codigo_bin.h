@@ -12,4 +12,6 @@ void conversor_R_code(int* codigo, int num);
 
 void conversor_L_code(int* codigo, int num);
 
+int* converter_binario_base10(char** matriz_recebida);
+
 #endif // CODIGO_BIN_H_INCLUDED

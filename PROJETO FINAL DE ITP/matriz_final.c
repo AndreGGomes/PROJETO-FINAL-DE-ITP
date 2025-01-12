@@ -99,20 +99,16 @@ int calcular_area(int largura, int espacamento, FILE *arquivo){
     char linha[largura*2];  
 
     fgets(linha, sizeof(linha), arquivo); //P1
-    printf("%s", linha);
 
     fgets(linha, sizeof(linha), arquivo); //largura e altura
-    printf("%s", linha);
 
     //pulando para a linha após o espacamento
     for(int i=0;i<espacamento;i++){
         fgets(linha, sizeof(linha), arquivo);
-        printf("%s", linha);
     }
 
 
     fgets(linha, sizeof(linha), arquivo); //lê uma linha do código de 
-    printf("%s", linha);
 
     for (int i = espacamento; i < largura; i++) { //conta quantos 1s seguidos tem, para descobrir a area
             if (linha[i] == '1') {
@@ -125,47 +121,48 @@ int calcular_area(int largura, int espacamento, FILE *arquivo){
     return area;
 }
 
-void criar_vetores(int largura, int area, int espacamento, FILE *arquivo){
+char** criar_vetores(int largura, int area, int espacamento, FILE *arquivo){
 
     char linha[largura*2];
-    char vetores[8][7]; //matriz de strings, 8 linhas de 7 caracteres
-
+    char **vetores = (char **)malloc(8 * sizeof(char *)); //matriz de strings, 8 linhas de 7 caracteres
+    for (int i = 0; i < 8; i++) {
+        vetores[i] = (char *)malloc(8 * sizeof(char)); //7 caracteres + 1 para \0
+    }
     //pulando para a linha após o espacamento
     for(int i = -2; i<espacamento+1;i++){ //i=-2 para pular as duas primeiras linhas de cabeçalho
         fgets(linha, sizeof(linha), arquivo);
     }
     char c;
     int contador = 0;
-    int comecoL = espacamento+(area*3);
-    int comecoR = espacamento+(area*3)+(area*4*7)+(area*5);
-    int fimR = espacamento+(area*3)+(area*4*7)+(area*5)+(area*4*8);
-    int fimL = espacamento+(area*8*4); 
+    int comecoL = espacamento+(area*3); //após o espaçamento lateral e o '101' que começa o cb
+    int comecoR = espacamento+(area*3)+(area*4*7)+(area*5); //após o marcador central do cb
+    int fimR = espacamento+(area*3)+(area*4*7)+(area*5)+(area*4*8); //marcador central
+    int fimL = espacamento+(area*8*4); //marcador final
 
     for(int i = 0;i<4;i++){ //parteL do codigo
         int j=0;
-        for(contador; contador<fimL && j<7;contador++){
+        for(contador; contador<fimL && j<7;contador++){ //recebe os caracteres de depois do marcador inical até o marcador central
             c = fgetc(arquivo);
             if(contador>comecoL && (contador-comecoL-1)%area == 0){
             vetores[i][j] = c;
-            printf("%c ",vetores[i][j]);
             j++;
             }
         }
-        printf("\n");
+        vetores[i][7] = '\0';
     }
 
     for(int i = 4;i<8;i++){ //parteR do codigo
         int j=0;
-        for(contador; contador<fimR && j<7;contador++){
+        for(contador; contador<fimR && j<7;contador++){ //recebe os caracteres de depois do marcador central até o marcador final
             c = fgetc(arquivo);
             if(contador>comecoR && (contador-comecoR-1)%area == 0){
             vetores[i][j] = c;
-            printf("%c ",vetores[i][j]);
             j++;
             }
         }
-        printf("\n");
+        vetores[i][7] = '\0';
     }
 
+    return vetores;
 }
 

@@ -44,19 +44,23 @@ int main(int argc, char *argv[]) {
     // Passando as variáveis globais 'largura' e 'altura' para a função checar_espacamento_superior
     int espacamento = checar_espacamento(arquivo, largura);
 
-    printf("Espaçamento: %d\n", espacamento); //usar para testar se tudo certo!
-
     // Reabrir o arquivo para checar o espaçamento superior
     fseek(arquivo, 0, SEEK_SET);  // Voltar para o início do arquivo
 
     int area = calcular_area(largura, espacamento, arquivo);
 
-    printf("a area do codigo de barras é: %d\n", area);
-
     fseek(arquivo, 0, SEEK_SET);  // Voltar para o início do arquivo
 
-    criar_vetores(largura, area, espacamento, arquivo);
+    char **matriz_binaria = criar_vetores(largura, area, espacamento, arquivo); //cria uma matriz de vetores, em que cada vetor é um digito do cb, em binario.
 
+    int *numeroscb = converter_binario_base10(matriz_binaria);
+
+    for(int i = 0;i<8;i++){
+        printf("%d", numeroscb[i]);
+    }
+
+    free(matriz_binaria);
+    free(numeroscb);
     fclose(arquivo);
 
     return 0;
