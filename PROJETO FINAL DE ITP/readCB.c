@@ -1,59 +1,87 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <locale.h>
 #include "matriz_final.h"
 #include "validade_codigo.h"
 #include "codigo_bin.h"
-#define ESPACAMENTO_LATERAL_PADRAO 4
-#define LARGURA_AREA_PADRAO 3
-#define ALTURA_CODIGO_PADRAO 50
-#define NOME_IMAGEM_PADRAO "codigo_de_barras_ean8.pbm"
+
+//recebe o arquivo como parâmetro:
 
 int main(int argc, char *argv[]) {
-    setlocale(LC_ALL,"");
-    if (argc != 2) {
+
+
+    //caso o parâmetro do arquivo não for digitado:
+
+    if (argc != 2) { 
         printf("\nNenhum arquivo foi escolhido!");
         return 1;
     }
 
+    //abre o arquivo:
+
     FILE *arquivo = fopen(argv[1], "r");
 
+    //caso o parâmetro colocado não for um arquivo:
+
     if (arquivo == NULL) {
-        printf("\nO arquivo com o nome informado não existe!");
+        printf("\nO arquivo com o nome informado nao existe!"); 
         return 1;
     }
 
-    // Verificar a primeira linha do arquivo
+    //Verificando a primeira linha do arquivo(P1):
+
     if (!verificar_primeira_linha(arquivo)) {
-        printf("Arquivo inválido.\n");
+        printf("Arquivo invalido.\n");
         fclose(arquivo);
         return 1;
     }
 
-    // Verificar a segunda linha (dimensões)
+    //Verificando a segunda linha (dimensões):
+
     if (!verificar_segunda_linha(arquivo)) {
-        printf("Arquivo inválido.\n");
+        printf("Arquivo invalido.\n");
         fclose(arquivo);
         return 1;
     }
 
-    // Reabrir o arquivo para checar o espaçamento superior
-    fseek(arquivo, 0, SEEK_SET);  // Voltar para o início do arquivo
+    //Voltando para o começo do arquivo:
 
-    // Passando as variáveis globais 'largura' e 'altura' para a função checar_espacamento_superior
+    fseek(arquivo, 0, SEEK_SET);
+
+    //identificando o espaçamento lateral do código de barras:
+
     int espacamento = checar_espacamento(arquivo, largura);
 
-    // Reabrir o arquivo para checar o espaçamento superior
-    fseek(arquivo, 0, SEEK_SET);  // Voltar para o início do arquivo
+    //Voltando para o começo do arquivo:
+
+    fseek(arquivo, 0, SEEK_SET);
+
+    //identificando o tamanho da área:
 
     int area = calcular_area(largura, espacamento, arquivo);
 
-    fseek(arquivo, 0, SEEK_SET);  // Voltar para o início do arquivo
+    //Voltando para o começo do arquivo:
+
+    fseek(arquivo, 0, SEEK_SET);
+
+    //criando uma matriz, em que cada linha é um digito em binario do código de barras:
 
     char **matriz_binaria = criar_vetores(largura, area, espacamento, arquivo); //cria uma matriz de vetores, em que cada vetor é um digito do cb, em binario.
 
+    //convertendo cada linha da matriz_binaria para seu respectivo número base10:
+
     int *numeroscb = converter_binario_base10(matriz_binaria);
+
+    //verificando a validade do código de barras:
+
+    if(validacao_identificador(numeroscb)){
+        printf("O codigo de barras lido e valido.\n");
+    }else{
+        printf("O codigo de barras lido e invalido.\n");
+    }
+
+    printf("Codigo de barras lido:\n");
+    //printando o resultado final:
 
     for(int i = 0;i<8;i++){
         printf("%d", numeroscb[i]);
