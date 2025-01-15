@@ -127,3 +127,25 @@ int verificar_segunda_linha(FILE *arquivo) { ///DEU CERTO
     return 0;  // Retorna 0 caso contrário
 }
 
+int verificar_codigo_de_barras(char** matriz_binaria, int* numeroscb, int espacamento){
+
+    if(espacamento == -1){ //checando flag de erro
+        printf("o codigo de barras nao foi encontrado.");
+        return 0;
+    } else if(espacamento == -2){ //checando flag de erro
+        printf("Codigo de barras invalido: Caracteres invalidos presentes no arquivo.");
+        return 0;
+    }
+
+    if(matriz_binaria[0][0] == '2'){ //checando flag de erro
+        printf("Codigo de barras invalido: Caracteres invalidos presentes no arquivo.");
+        return 0;
+    }
+
+    if(numeroscb[0]== -1){ //checando flag de erro
+        printf("Codigo de barras invalido: Digitos do codigo de barras sao invalidos");
+        return 0;
+    }
+
+    return 1; //caso nenhum problema for encontrado
+}
