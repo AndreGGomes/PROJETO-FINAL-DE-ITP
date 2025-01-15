@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <locale.h>
 #include "matriz_final.h"
 #include "validade_codigo.h"
@@ -64,7 +65,7 @@ void print(int** matriz, int linhas, int colunas, char nome_imagem[]){
         free(matriz);
 
     }else{
-        printf("O arquivo a ser criado j� existe. Deseja sobrescrev�-lo (s/n)?\n");
+        printf("O arquivo a ser criado ja existe. Deseja sobrescreve-lo (s/n)?\n");
         scanf(" %c", &confirmacao);
     }
     if(confirmacao == 's'){
@@ -83,15 +84,55 @@ void print(int** matriz, int linhas, int colunas, char nome_imagem[]){
         free(matriz);
 
     }else if(confirmacao == 'n'){
-        printf("arquivo resultante j� existe!\n");
+        printf("arquivo resultante ja existe!\n");
     }
 
 }
 
 //transformar codigo de barras em matriz
 
-//TODO: criar um vetor com a linha espacamento_superior+1, a partir da coluna espacamento_superior+1 até a coluna espacamento_superior-1
-//a partir da coluna espacamento_superior+1 checar quantos 1 seguidos, para saber a area.
+int checar_espacamento(FILE *arquivo, int largura) {
+    char linha[largura*2];  // Cria o buffer com o tamanho exato da linha (considerando o terminador '\0')
+    int espacamento = 0;
+    int linha_lida = -1;
+
+    fgets(linha, sizeof(linha), arquivo);
+    fgets(linha, sizeof(linha), arquivo);
+
+    while (fgets(linha, sizeof(linha), arquivo)) {
+        linha_lida++;
+        // Remover a nova linha (\n) que fgets pode adicionar, se houver
+        linha[strcspn(linha, "\n")] = '\0';
+    
+        // Verificar se a linha contém '1'
+        if (strchr(linha, '1') != NULL) {
+            break;  // Parar a contagem ao encontrar o primeiro '1'
+        }
+
+        // Verificar se a linha é composta apenas por '0's
+        int i = 0;
+        while (linha[i] != '\0') {
+            if (linha[i] != '0') {
+                if(linha[i]!= '1'){ //caso o caractere não-zero também não seja 1, é pq tem algum caractere invalido!
+                    return -2;
+                }
+                break;
+            }
+            i++;
+        }
+
+        // Se a linha é composta apenas de '0's
+        if (linha[i] == '\0') {
+            espacamento++;
+        }
+    }
+
+    if(linha_lida<0){ //caso nenhuma linha tenha sido lida
+        return -1;
+    }
+
+    return espacamento;
+}
 
 int calcular_area(int largura, int espacamento, FILE *arquivo){
 
@@ -129,7 +170,7 @@ char** criar_vetores(int largura, int area, int espacamento, FILE *arquivo){
         vetores[i] = (char *)malloc(8 * sizeof(char)); //7 caracteres + 1 para \0
     }
     //pulando para a linha após o espacamento
-    for(int i = -2; i<espacamento+1;i++){ //i=-2 para pular as duas primeiras linhas de cabeçalho
+    for(int i = -2; i<espacamento;i++){ //i=-2 para pular as duas primeiras linhas de cabeçalho
         fgets(linha, sizeof(linha), arquivo);
     }
     char c;
@@ -143,6 +184,10 @@ char** criar_vetores(int largura, int area, int espacamento, FILE *arquivo){
         int j=0;
         for(contador; contador<fimL && j<7;contador++){ //recebe os caracteres de depois do marcador inical até o marcador central
             c = fgetc(arquivo);
+            if(c != '1'&& c != '0'){ //caso o char lido não seja 1 ou 0, um caractere invalido foi lido
+                vetores[0][0] = '2'; //'2' sera a flag do erro
+                return vetores; //o programa para a leitura
+            }
             if(contador>comecoL && (contador-comecoL-1)%area == 0){
             vetores[i][j] = c;
             j++;

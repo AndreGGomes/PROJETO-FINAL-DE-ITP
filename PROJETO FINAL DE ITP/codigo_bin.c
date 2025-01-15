@@ -203,12 +203,16 @@ int* converter_binario_base10(char** matriz_recebida){
         "1110100" //9R
     };
 
+    int checagem = 0;
+
     for(int i = 0;i<4;i++){ //converte os primeiros 4 digitos
+
 
         matriz_recebida[i][strcspn(matriz_recebida[i], "\n")] = '\0';
         for(int j = 0; j<10;j++){
             if(strcmp(matriz_recebida[i], matriz_base[j])==0){
                 numerocb[i] = j;
+                checagem++; //flag avisando que tudo está certo
             }
         }
     }
@@ -219,9 +223,15 @@ int* converter_binario_base10(char** matriz_recebida){
         for(int j = 10; j<20;j++){
             if(strcmp(matriz_recebida[i], matriz_base[j])==0){
                 numerocb[i] = j-10;
+                checagem++; //flag avisando que tudo está certo
             }
         }
     }
+
+    if(checagem<8){ //não foram encontrados matchs para todos os digitos
+            numerocb[0] = -1; //flag de erro na conversão
+            return numerocb;
+        }
     
     return numerocb;
 

@@ -15,7 +15,7 @@ int quant_tipo_elementos(char codigoStr[]){
 
     //verifica a validade do c�digo informado pelo o usu�rio
     if(!(strlen(codigoStr) == 8)){
-        printf("Identificador n�o possui 8 d�gitos!\n");
+        printf("Identificador nao possui 8 digitos!\n");
         return 0;
 
     }else{
@@ -31,7 +31,7 @@ int quant_tipo_elementos(char codigoStr[]){
             }
             if(testeElemento == 0){
                 validacao = 0;
-                printf("Identificador cont�m valores n�o num�ricos!\n");
+                printf("Identificador contem valores nao numericos!\n");
                 break;
 
             }else{
@@ -87,7 +87,7 @@ int validacao_identificador(int vetor[]){
         return 1;
 
     }else{
-        printf("O d�gito verificador do identificador � inv�lido (n�o corresponde aos valores anteriores)!\n");
+        printf("O digito verificador do identificador e invalido (nao corresponde aos valores anteriores)!\n");
         return 0;
     }
 }
@@ -125,39 +125,5 @@ int verificar_segunda_linha(FILE *arquivo) { ///DEU CERTO
         }
     }
     return 0;  // Retorna 0 caso contrário
-}
-
-int checar_espacamento(FILE *arquivo, int largura) {
-    char linha[largura*2];  // Cria o buffer com o tamanho exato da linha (considerando o terminador '\0')
-    int espacamento = 0;
-
-    fgets(linha, sizeof(linha), arquivo);
-    fgets(linha, sizeof(linha), arquivo);
-
-    while (fgets(linha, sizeof(linha), arquivo)) {
-        // Remover a nova linha (\n) que fgets pode adicionar, se houver
-        linha[strcspn(linha, "\n")] = '\0';
-
-        // Verificar se a linha contém '1'
-        if (strchr(linha, '1') != NULL) {
-            break;  // Parar a contagem ao encontrar o primeiro '1'
-        }
-
-        // Verificar se a linha é composta apenas por '0's
-        int i = 0;
-        while (linha[i] != '\0') {
-            if (linha[i] != '0') {
-                break;
-            }
-            i++;
-        }
-
-        // Se a linha é composta apenas de '0's
-        if (linha[i] == '\0') {
-            espacamento++;
-        }
-    }
-
-    return espacamento;
 }
 
