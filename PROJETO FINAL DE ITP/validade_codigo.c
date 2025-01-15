@@ -106,7 +106,7 @@ int verificar_primeira_linha(FILE *arquivo) { //DEU CERTO
         if (strcmp(linha, "P1") == 0) {
             return 1;  // Retorna 1 se a primeira linha for "P1"
         } else {return 0;}
-    }
+    } else {return 0;}
 }
 
 
@@ -130,7 +130,7 @@ int verificar_segunda_linha(FILE *arquivo) { ///DEU CERTO
 int verificar_codigo_de_barras(char** matriz_binaria, int* numeroscb, int espacamento){
 
     if(espacamento == -1){ //checando flag de erro
-        printf("o codigo de barras nao foi encontrado.");
+        printf("O codigo de barras nao foi encontrado.");
         return 0;
     } else if(espacamento == -2){ //checando flag de erro
         printf("Codigo de barras invalido: Caracteres invalidos presentes no arquivo.");
