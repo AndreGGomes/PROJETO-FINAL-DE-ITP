@@ -1,6 +1,6 @@
 FLAGS = -w -pedantic
 
-COMMON_OBJ = codigo_bin.o matriz_final.o validade_codigo.o
+COMMON_OBJ = codigo_bin.o matriz_final.o validade_codigo.o entradas.o
 
 all: createCB readCB
 
@@ -12,6 +12,9 @@ readCB: readCB.o $(COMMON_OBJ)
 
 createCB.o: createCB.c
 	gcc -c createCB.c $(FLAGS)
+
+entradas.o: entradas.c
+	gcc -c entradas.c $(FLAGS)
 
 readCB.o: readCB.c
 	gcc -c readCB.c $(FLAGS)

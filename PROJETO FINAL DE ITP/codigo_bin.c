@@ -51,7 +51,7 @@ void conversor_L_code(int* codigo, int num){
         cont_L = cont_L + 7;
     }
     if(num == 3){
-        int vetor[] = {0,1,1,1,1,0,0};
+        int vetor[] = {0,1,1,1,1,0,1};
         for(int i = cont_L; i < cont_L+7; ++i){
             codigo[i] = vetor[i-cont_L];
         }
@@ -129,7 +129,7 @@ void conversor_R_code(int* codigo, int num){
         cont_R = cont_R + 7;
     }
     if(num == 3){
-        int vetor[] = {1,0,0,0,0,1,1};
+        int vetor[] = {1,0,0,0,0,1,0};
         for(int i = cont_R; i < cont_R+7; ++i){
             codigo[i] = vetor[i-cont_R];
         }
