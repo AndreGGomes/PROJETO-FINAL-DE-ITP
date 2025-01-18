@@ -26,4 +26,5 @@ validade_codigo.o: validade_codigo.c
 	gcc -c validade_codigo.c $(FLAGS)
 
 clean:
-	rm -f *.o createCB readCB
+	del /Q *.o
+	del /Q createCB.exe readCB.exe
