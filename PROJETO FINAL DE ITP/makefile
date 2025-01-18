@@ -1,4 +1,4 @@
-FLAGS = -g -std=c99 -Wall -Wextra -pedantic
+FLAGS = -w -pedantic
 
 COMMON_OBJ = codigo_bin.o matriz_final.o validade_codigo.o
 
