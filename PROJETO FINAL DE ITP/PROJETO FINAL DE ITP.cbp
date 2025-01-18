@@ -38,6 +38,10 @@
 		<Unit filename="createCB.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="entradas.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="entradas.h" />
 		<Unit filename="matriz_final.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -5,6 +5,7 @@
 #include "matriz_final.h"
 #include "validade_codigo.h"
 
+//alocação dinâmica para criação da matriz final
 int** dimensionar(int linhas, int colunas){
     int**m;
     m = calloc(linhas, sizeof(int*));
@@ -16,13 +17,13 @@ int** dimensionar(int linhas, int colunas){
     return m;
 }
 
-//fun��o para montar a matriz ajustada de acordo com a largura de cada �rea e baseada no vetor_ean
+//função para montar a matriz ajustada de acordo com a largura de cada área e baseada no vetor_ean
 void montarMatriz(int** matriz, int* vetor, int borda, int largura_area, int linhas, int colunas){
 
     int i = borda;
     int x = 0;
 
-    while(i < (colunas - borda)){
+    while(i < (colunas - borda)){ //ajustar a primeira linh da matriz, depois do espaçamento lateral, de acordo com a largura da área fornecida
 
         int cont = 0;
         while(cont < largura_area){
@@ -32,7 +33,7 @@ void montarMatriz(int** matriz, int* vetor, int borda, int largura_area, int lin
         }
         x = x + 1;
     }
-    for(int ln = 0; ln < linhas; ++ln){
+    for(int ln = 0; ln < linhas; ++ln){ //replica a linha preenchida anteriormente nas demais linhas da matriz
         if(ln > borda && ln < linhas-borda){
             matriz[ln] = matriz[borda];
         }
@@ -41,7 +42,7 @@ void montarMatriz(int** matriz, int* vetor, int borda, int largura_area, int lin
     free(vetor);
 }
 
-//fun��o que printa a matriz final no arquivo pbm
+//funçãoo que printa a matriz final no arquivo pbm
 void print(int** matriz, int linhas, int colunas, char nome_imagem[]){
 
     setlocale(LC_ALL,"");
@@ -49,7 +50,7 @@ void print(int** matriz, int linhas, int colunas, char nome_imagem[]){
     FILE * fp;
     fp = fopen(nome_imagem, "r");
 
-    if(fp == NULL){
+    if(fp == NULL){ //se o arquivo não exixtir, irá criar um novo
         fp = fopen(nome_imagem, "w+");
         fprintf(fp, "P1\n");
         fprintf(fp, "%d %d\n", colunas, linhas);
@@ -68,7 +69,7 @@ void print(int** matriz, int linhas, int colunas, char nome_imagem[]){
         printf("O arquivo a ser criado ja existe. Deseja sobrescreve-lo (s/n)?\n");
         scanf(" %c", &confirmacao);
     }
-    if(confirmacao == 's'){
+    if(confirmacao == 's'){ //se existir, sobrescreve o arquivo se o usuário desejar sobrescrever
         fp = fopen(nome_imagem, "r+");
         fprintf(fp, "P1\n");
         fprintf(fp, "%d %d\n", colunas, linhas);
@@ -85,6 +86,7 @@ void print(int** matriz, int linhas, int colunas, char nome_imagem[]){
 
     }else if(confirmacao == 'n'){
         printf("arquivo resultante ja existe!\n");
+        free(matriz);
     }
 
 }
@@ -103,7 +105,7 @@ int checar_espacamento(FILE *arquivo, int largura) {
         linha_lida++;
         // Remover a nova linha (\n) que fgets pode adicionar, se houver
         linha[strcspn(linha, "\n")] = '\0';
-    
+
         // Verificar se a linha contém '1'
         if (strchr(linha, '1') != NULL) {
             break;  // Parar a contagem ao encontrar o primeiro '1'
@@ -137,7 +139,7 @@ int checar_espacamento(FILE *arquivo, int largura) {
 int calcular_area(int largura, int espacamento, FILE *arquivo){
 
     int area = 0;
-    char linha[largura*2];  
+    char linha[largura*2];
 
     fgets(linha, sizeof(linha), arquivo); //P1
 
@@ -149,16 +151,16 @@ int calcular_area(int largura, int espacamento, FILE *arquivo){
     }
 
 
-    fgets(linha, sizeof(linha), arquivo); //lê uma linha do código de 
+    fgets(linha, sizeof(linha), arquivo); //lê uma linha do código de
 
     for (int i = espacamento; i < largura; i++) { //conta quantos 1s seguidos tem, para descobrir a area
             if (linha[i] == '1') {
-                area++;  
+                area++;
             } else if (linha[i] == '0'){
                 break;
             }
     }
-    
+
     return area;
 }
 

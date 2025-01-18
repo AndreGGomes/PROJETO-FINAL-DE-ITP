@@ -6,6 +6,8 @@
 int cont_L = INICIO_L;
 int cont_R = INICIO_R;
 
+// alocação dos bits padrões
+
 void bits_padrao(int* vetor){
 
     vetor[0] = 1;
@@ -21,6 +23,9 @@ void bits_padrao(int* vetor){
     vetor[66] = 1;
 
 }
+
+//conversor de decimal para L-code
+
 void conversor_L_code(int* codigo, int num){
 
     if(num == 0){
@@ -96,6 +101,8 @@ void conversor_L_code(int* codigo, int num){
     }
 
 }
+
+//conversor de decimal para R-code
 
 void conversor_R_code(int* codigo, int num){
 
@@ -232,7 +239,7 @@ int* converter_binario_base10(char** matriz_recebida){
             numerocb[0] = -1; //flag de erro na conversão
             return numerocb;
         }
-    
+
     return numerocb;
 
 }

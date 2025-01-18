@@ -1,87 +1,129 @@
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
 #include "matriz_final.h"
 #include "validade_codigo.h"
 #include "codigo_bin.h"
-#define ESPACAMENTO_LATERAL_PADRAO 4
-#define LARGURA_AREA_PADRAO 3
-#define ALTURA_CODIGO_PADRAO 50
-#define NOME_IMAGEM_PADRAO "codigo_de_barras_ean8.pbm"
+#include "entradas.h"
 
-int main(void){
-    //definição das variáveis utilizadas na implemtação do código de barras
+int main(int argc, char **argv){
+
+    if(argc < 2){
+        printf("Informe as entradas corretamente.\n");
+        condicoes_entradas();
+        return 1;
+    }else{
+        if(strcmp(argv[1], "-c") != 0){
+            printf("O cÃ³digo EAN-8 deve ser obrigatoriamente informado. Caso o cÃ³digo tenha sido inserido, certifique-se de que foi o primeiro parÃ¢metro informado.\n");
+            condicoes_entradas();
+            return 1;
+        }
+    }
+    //declaraÃ§Ã£o das variaveis utilizadas para a configuraÃ§Ã£o das entradas.
+
+    char *c;
+    char *e = ESPACAMENTO_LATERAL_PADRAO;
+    char *a = ALTURA_CODIGO_PADRAO;
+    char *l = LARGURA_AREA_PADRAO;
+    char *n = NOME_IMAGEM_PADRAO;
+    int index;
+    int x;
+    int elemento;
+    opterr = 0;
+
+    //declaraÃ§Ã£o das variaveis utilizadas para a construÃ§Ã£o do cï¿½digo de barras.
     int** img;
     char codigo_string[100];
     int codigo_int[8];
     int* codigo_ean = calloc(67, sizeof(int));
     int espaco_lateral, altura_cod, largura_area;
-    char nome[100];
-    char nome_img_completo[100];
-    char verifica_entradas;
+    char nome_img[100];
     int linhas_img, colunas_img;
 
-    //recebimento das entradas definidas pelo o usuário
-    printf("Informe o codigo no padrao EAN-8:\n");
-    scanf("%s", &codigo_string);
 
-    //verificações de validação do código informado pelo o usuário e, se válido, construção do código de barras
+    while ((x = getopt (argc, argv, "c:e:a:l:n:")) != -1){
+
+        switch (x){
+            case 'c':
+                c = optarg;
+                break;
+            case 'e':
+                e = optarg;
+                break;
+            case 'a':
+                a = optarg;
+                break;
+            case 'l':
+                l = optarg;
+                break;
+            case 'n':
+                n = optarg;
+                break;
+            case '?':
+                if (optopt == 'c')
+                  fprintf (stderr, "A opcao -c requer um argumento.\n", optopt);
+                else if (optopt == 'e')
+                  fprintf (stderr, "A opcao -e requer um argumento.\n", optopt);
+                else if (optopt == 'a')
+                  fprintf (stderr, "A opcao -a requer um argumento.\n", optopt);
+                else if (optopt == 'l')
+                  fprintf (stderr, "A opcao -l requer um argumento.\n", optopt);
+                else if (optopt == 'n')
+                  fprintf (stderr, "A opcao -n requer um argumento.\n", optopt);
+                else
+                  fprintf (stderr,"Alguma opÃ§Ãµes podem estar invÃ¡lidas. Verifique suas entradas e tente novamente.\n", optopt);
+
+                condicoes_entradas();
+
+                return 1;
+
+            default:
+                return 1;
+                abort ();
+        }
+    }
+
+    for (index = optind; index < argc; index++){
+        elemento = index;
+        break;
+    }
+
+    if(elemento){
+        printf("Sua entrada apresenta algum/s caracter/es invÃ¡lido/s. Certifique-se de que tudo foi digitado corretamente.\n");
+        condicoes_entradas();
+        return 1;
+    }
+
+    strcpy(codigo_string, c);
+    espaco_lateral = atoi(e);
+    altura_cod = atoi(a);
+    largura_area = atoi(l);
+    strcpy(nome_img, n);
+    strcat(nome_img, ".pbm");
+
+    //verifica se o cÃ³dido informado possui exatamente 8 dÃ­gitos e se todos eles sÃ£o numÃ©ricos
+
     if(quant_tipo_elementos(codigo_string)){
 
         for(int i = 0; i < 8; ++i){
 
+            //converte o codigo informado em um vetor de inteiros
             codigo_int[i] = convertInter(codigo_string[i]);
         }
 
+        //verifica se o dÃ­gito verificador corresponde ao cÃ³digo informado
         if(validacao_identificador(codigo_int)){
-            //recebimentos das entradas informadas pelo o usuário
-            printf("Deseja especificar o espacamento lateral do codigo na imagem (s/n)?\n");
-            scanf(" %c", &verifica_entradas);
 
-            if(verifica_entradas == 's'){
-                printf("Espacamento lateral: ");
-                scanf("%d", &espaco_lateral);
-            }else{
-                espaco_lateral = ESPACAMENTO_LATERAL_PADRAO;
-            }
-
-            printf("Deseja especificar a quantidade de pixels por area do codigo (s/n)?\n");
-            scanf(" %c", &verifica_entradas);
-
-            if(verifica_entradas == 's'){
-                printf("Pixels por area: ");
-                scanf("%d", &largura_area);
-            }else{
-                largura_area = LARGURA_AREA_PADRAO;
-            }
-
-            printf("Deseja especificar a altura do codigo de barras (s/n)?\n");
-            scanf(" %c", &verifica_entradas);
-
-            if(verifica_entradas == 's'){
-                printf("Altura do codigo (pixels): ");
-                scanf("%d", &altura_cod);
-            }else{
-                altura_cod = ALTURA_CODIGO_PADRAO;
-            }
-
-            printf("Deseja especificar o nome da imagem (s/n)?\n");
-            scanf(" %c", &verifica_entradas);
-
-            if(verifica_entradas == 's'){
-                printf("Nome da imagem: ");
-                scanf("%s", &nome);
-                strcpy(nome_img_completo, strcat(nome, ".pbm"));
-            }else{
-                strcpy(nome_img_completo, NOME_IMAGEM_PADRAO);
-            }
-
-            //dimensionando a matriz final que conterá a informação que definirá a imagem com o código de barras
+            //dimensÃµes da matriz final que definirÃ¡ a imagem com o cÃ³digo de barras
             linhas_img = (altura_cod + 2*espaco_lateral);
             colunas_img = (67*largura_area + 2*espaco_lateral);
 
+            //aloca os bits padrÃµes no vetor que contÃ©m o cÃ³digo R-code e L-code
             bits_padrao(codigo_ean);
 
+            //preenche o vetor que contÃ©m o cÃ³digo R-code e L-code com os demais dÃ­gitos
             for(int i = 0; i < 8; ++i){
                 if(i < 4){
                     conversor_L_code(codigo_ean, codigo_int[i]);
@@ -91,11 +133,14 @@ int main(void){
                 }
             }
 
+            //cria a matriz que conterÃ¡ a informaÃ§Ã£ao da imagem
             img = dimensionar(linhas_img, colunas_img);
 
+            //aloca cada elenmento na matriz final baseando-se nos parametros fornecidos pelo o usuÃ¡rio
             montarMatriz(img, codigo_ean, espaco_lateral, largura_area, linhas_img, colunas_img);
 
-            print(img, linhas_img, colunas_img, nome_img_completo);
+            //cria o arquivo com a imagem
+            print(img, linhas_img, colunas_img, nome_img);
 
         }
 

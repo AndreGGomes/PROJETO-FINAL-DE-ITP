@@ -64,3 +64,48 @@
 	<locale.h>
 	"validade_codigo.h"
 
+1737224003 source:c:\users\saulo\documents\codigo de barras - itp\projeto-final-de-itp\projeto final de itp\codigo_bin.c
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"codigo_bin.h"
+
+1737213790 c:\users\saulo\documents\codigo de barras - itp\projeto-final-de-itp\projeto final de itp\codigo_bin.h
+
+1737222908 source:c:\users\saulo\documents\codigo de barras - itp\projeto-final-de-itp\projeto final de itp\createcb.c
+	<ctype.h>
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
+	<string.h>
+	"matriz_final.h"
+	"validade_codigo.h"
+	"codigo_bin.h"
+	"entradas.h"
+
+1737213790 c:\users\saulo\documents\codigo de barras - itp\projeto-final-de-itp\projeto final de itp\matriz_final.h
+
+1737213790 c:\users\saulo\documents\codigo de barras - itp\projeto-final-de-itp\projeto final de itp\validade_codigo.h
+
+1737224003 source:c:\users\saulo\documents\codigo de barras - itp\projeto-final-de-itp\projeto final de itp\matriz_final.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<locale.h>
+	"matriz_final.h"
+	"validade_codigo.h"
+
+1737213790 source:c:\users\saulo\documents\codigo de barras - itp\projeto-final-de-itp\projeto final de itp\validade_codigo.c
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+	<locale.h>
+	<stdio.h>
+	"validade_codigo.h"
+
+1737220638 source:c:\users\saulo\documents\codigo de barras - itp\projeto-final-de-itp\projeto final de itp\entradas.c
+	<stdio.h>
+	"entradas.h"
+
+1737218477 c:\users\saulo\documents\codigo de barras - itp\projeto-final-de-itp\projeto final de itp\entradas.h
+
